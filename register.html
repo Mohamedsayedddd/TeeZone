@@ -2,45 +2,94 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>إنشاء حساب</title>
+    <title>إنشاء حساب - TeeZone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css "/>
+
     <style>
-        body {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
             background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 20px;
         }
+
         .container {
-            width: 90%;
+            width: 100%;
             max-width: 400px;
+            margin: auto;
             background-color: white;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h2 { text-align: center; margin-bottom: 20px; }
-        label { display: block; margin-top: 10px; }
-        input {
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
             width: 100%;
-            padding: 10px;
+            padding: 10px 12px;
             margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-bottom: 15px;
+            font-size: 1rem;
         }
+
         button {
             width: 100%;
-            padding: 10px;
-            background-color: #007bff;
+            padding: 12px;
+            background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
+            font-size: 1.1rem;
             cursor: pointer;
         }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: #218838;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .form-footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -62,10 +111,12 @@
         <input type="password" id="confirmPassword" required>
 
         <button type="submit">إنشاء الحساب</button>
-        <p style="text-align: center; margin-top: 15px;">
+
+        <div class="form-footer">
             لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a>
-        </p>
-        <div id="message" style="margin-top: 15px; text-align: center;"></div>
+        </div>
+
+        <div id="message"></div>
     </form>
 </div>
 
@@ -81,12 +132,12 @@
         const messageDiv = document.getElementById("message");
 
         if (!name || !email || !password || !confirmPassword) {
-            messageDiv.innerHTML = '<span style="color: red;">من فضلك املأ جميع الحقول</span>';
+            messageDiv.innerHTML = '<p style="color: red; text-align: center;">من فضلك املأ جميع الحقول</p>';
             return;
         }
 
         if (password !== confirmPassword) {
-            messageDiv.innerHTML = '<span style="color: red;">كلمات المرور غير متطابقة</span>';
+            messageDiv.innerHTML = '<p style="color: red; text-align: center;">كلمات المرور غير متطابقة</p>';
             return;
         }
 
@@ -94,13 +145,14 @@
         const exists = users.some(u => u.email === email);
 
         if (exists) {
-            messageDiv.innerHTML = '<span style="color: red;">البريد الإلكتروني مستخدم بالفعل</span>';
+            messageDiv.innerHTML = '<p style="color: red; text-align: center;">البريد الإلكتروني مستخدم بالفعل</p>';
             return;
         }
 
         users.push({ name, email, password });
         localStorage.setItem("users", JSON.stringify(users));
-        messageDiv.innerHTML = '<span style="color: green;">تم إنشاء الحساب بنجاح!</span>';
+
+        messageDiv.innerHTML = '<p style="color: green; text-align: center;">تم إنشاء الحساب بنجاح!</p>';
 
         setTimeout(() => {
             window.location.href = "login.html";
