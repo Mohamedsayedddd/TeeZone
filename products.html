@@ -304,11 +304,11 @@
     </style>
 </head>
 <body>
-
+   <p id="userWelcome" style="text-align: center; font-size: 1.2rem; margin: 20px 0; color: #007bff;"></p>
 <!-- Navbar -->
 <nav class="navbar mobile-bottom-nav">
     <ul class="nav-links">
-    <li><a href="#"><i class="fas fa-home"></i></a></li>
+    <li><a href="#"><i class="fas fa-shopping-bag"></i></a></li>
     <li>
         <a href="cart.html">
             <i class="fas fa-shopping-cart"></i>
@@ -317,8 +317,8 @@
     </li>
         
        
-        
-    <li><a href="#"><i class="fas fa-user"></i></a></li>
+   <li><a href="account.html"><i class="fas fa-user"></i></a></li>
+      
 </ul>
 </nav>
 
@@ -440,6 +440,7 @@
         </div>
     </div>
 </div>
+    <p id="userWelcome" style="text-align: center; font-size: 1rem; margin: 20px 0; color: #007bff;"></p>
 
 <script>
     let currentImageIndex = 0;
@@ -548,7 +549,9 @@
         loadCart();
     };
 </script>
-<script>
+
+    
+    <script>
     // === تحديث عدد المنتجات في السلة === //
     function updateCartCount() {
         const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -564,6 +567,25 @@
         updateCartCount();
     };
 </script>
+    <script>
+    // عرض اسم المستخدم في الصفحة
+    // === عرض اسم المستخدم === //
+function showUserGreeting() {
+    const currentUser = localStorage.getItem("currentUser");
+    if (!currentUser) return;
+    const user = JSON.parse(currentUser);
+    const welcomeElement = document.getElementById("userWelcome");
+    if (welcomeElement) {
+        welcomeElement.textContent = `مرحبًا ${user.name}`;
+    }
+}
+
+window.onload = function () {
+    showUserGreeting();
+    updateCartCount(); // تحديث العدد عند تحميل الصفحة
+};
+</script>
+  
     
 </body>
 </html>
