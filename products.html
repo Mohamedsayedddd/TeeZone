@@ -300,7 +300,6 @@
     font-size: 0.7rem;
     min-width: 18px;
     text-align: center;
-    display: inline-block;
 }
     </style>
 </head>
@@ -309,15 +308,15 @@
 <!-- Navbar -->
 <nav class="navbar mobile-bottom-nav">
     <ul class="nav-links">
-        <li><a href="#"><i class="fas fa-home"></i></a></li>
-       <li>
-    <a href="cart.html">
-        <i class="fas fa-shopping-cart"></i>
-        <span id="cart-count" class="cart-badge">0</span>
-    </a>
-</li>
-        <li><a href="#"><i class="fas fa-user"></i></a></li>
-    </ul>
+    <li><a href="#"><i class="fas fa-home"></i></a></li>
+    <li>
+        <a href="cart.html">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count" class="cart-badge">0</span>
+        </a>
+    </li>
+    <li><a href="#"><i class="fas fa-user"></i></a></li>
+</ul>
 </nav>
 
 <!-- Products Grid -->
@@ -499,38 +498,41 @@
     }
 
     function addToCartFromModal() {
-        const quantity = parseInt(quantityInput.value);
-        const selectedSize = sizeSelect.value;
+    const quantity = parseInt(document.getElementById("quantity").value);
+    const selectedSize = document.getElementById("sizeSelect").value;
 
-        if (!selectedSize) {
-            alert("من فضلك اختر المقاس");
-            return;
-        }
-
-        const product = {
-            name: modalName.textContent,
-            priceBefore: parseFloat(modalPriceBefore.textContent),
-            priceAfter: parseFloat(modalPriceAfter.textContent),
-            material: modalMaterial.textContent,
-            brand: modalBrand.textContent,
-            color: modalColor.textContent,
-            size: selectedSize,
-            quantity: quantity,
-            image: modalImage.src
-        };
-
-        let cart = [];
-        const savedCart = localStorage.getItem("cart");
-        if (savedCart) {
-            cart = JSON.parse(savedCart);
-        }
-
-        cart.push(product);
-        localStorage.setItem("cart", JSON.stringify(cart));
-
-        alert(`تمت إضافة ${quantity} من "${product.name}" بمقاس "${selectedSize}" للسلة`);
-        modal.style.display = "none";
+    if (!selectedSize) {
+        alert("من فضلك اختر المقاس");
+        return;
     }
+
+    const product = {
+        name: document.getElementById("modalName").textContent,
+        priceBefore: parseFloat(document.getElementById("modalPriceBefore").textContent),
+        priceAfter: parseFloat(document.getElementById("modalPriceAfter").textContent),
+        material: document.getElementById("modalMaterial").textContent,
+        brand: document.getElementById("modalBrand").textContent,
+        color: document.getElementById("modalColor").textContent,
+        size: selectedSize,
+        quantity: quantity,
+        image: document.getElementById("modalImage").src
+    };
+
+    let cart = [];
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+        cart = JSON.parse(savedCart);
+    }
+
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // تحديث العداد في أيقونة السلة
+    updateCartCount();
+
+    alert(`تمت إضافة ${quantity} من "${product.name}" بمقاس "${selectedSize}" للسلة`);
+    modal.style.display = "none";
+}
 
     function loadCart() {
         const savedCart = localStorage.getItem("cart");
