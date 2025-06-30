@@ -216,16 +216,33 @@
             padding: 20px 0;
             margin-top: 40px;
         }
+    .cart-badge {
+   
+    background-color: #ff4d4d;
+    color: white;
+    border-radius: 50%;
+    padding: 3px 7px;
+    font-size: 0.7rem;
+    min-width: 18px;
+    text-align: center;
+}
     </style>
 </head>
 <body>
+    
+    <p id="userWelcome" style="text-align: center; font-size: 1.2rem; margin: 20px 0; color: #007bff;"></p>
 
 <!-- Navbar -->
 <nav class="navbar mobile-bottom-nav">
     <ul class="nav-links">
-        <li><a href="login.html"><i class="fas fa-user"></i></a></li>
-        <li><a href="products.html"><i class="fas fa-shopping-bag"></i></a></li>
-        <li><a href="index.html"><i class="fas fa-home"></i></a></li>
+        <li><a href="account.html"><i class="fas fa-user"></i></a></li>
+        <li dir="ltr">
+        <a href="cart.html">
+            <i class="fas fa-shopping-cart"></i>
+            
+        </a>
+    </li>
+        <li><a href="products.html"><i class="fas fa-shopping-bag"></i></i></a></li>
     </ul>
 </nav>
 
@@ -503,6 +520,41 @@
     function calculateTotal() {
         return cart.reduce((sum, item) => sum + (item.priceAfter * item.quantity), 0);
     }
+</script>
+    
+ <script>
+    // === تحديث عدد المنتجات في السلة === //
+    function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const count = cart.reduce((total, item) => total + item.quantity, 0);
+        const badge = document.getElementById("cart-count");
+        if (badge) {
+            badge.textContent = count > 0 ? count : '';
+        }
+    }
+
+    // === استدعاء الدالة عند التحميل === //
+    window.onload = function () {
+        updateCartCount();
+    };
+</script>
+<script>
+    // === عرض اسم المستخدم === //
+    function showUserGreeting() {
+        const currentUser = localStorage.getItem("currentUser");
+        const welcomeElement = document.getElementById("userWelcome");
+
+        if (!currentUser || !welcomeElement) return;
+
+        const user = JSON.parse(currentUser);
+        welcomeElement.textContent = `مرحبًا ${user.name}`;
+    }
+
+    window.onload = function () {
+        showUserGreeting();
+        loadCart();
+        updateCartUI();
+    };
 </script>
 
 </body>
